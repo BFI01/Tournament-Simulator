@@ -1,0 +1,5 @@
+surnames.csv is a subset of:
+	https://data.world/fivethirtyeight/most-common-name
+
+firstnames.csv is a modified version of:
+	https://data.world/alexandra/baby-names
