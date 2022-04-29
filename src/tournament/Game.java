@@ -1,3 +1,7 @@
+package tournament;
+
+import player.Player;
+
 import java.util.HashMap;
 import java.util.Random;
 
@@ -13,11 +17,11 @@ public abstract class Game {
      * <p>Simulate a game of table tennis with two players</p>
      * <br>
      * <p>The winner is the first to 11 points (or higher) with a 2 point lead</p>
-     * @param gamePlayer1 Player object for one of the players
-     * @param gamePlayer2 Player object for the other player
-     * @return Returns Player object of the game winner
+     * @param gamePlayer1 player.Player objecbt for one of the players
+     * @param gamePlayer2 player.Player object for the other player
+     * @return Returns player.Player object of the game winner
      */
-    private Player playGame(Player gamePlayer1, Player gamePlayer2) {
+    public String playGame(Player gamePlayer1, Player gamePlayer2) {
         this.gamePlayer1 = gamePlayer1;
         this.gamePlayer2 = gamePlayer2;
         pointsDict.put("player1", 0);
@@ -25,16 +29,13 @@ public abstract class Game {
         do {
             String winner = playPoint();
             Integer winnerPoints = pointsDict.get(winner);
-            pointsDict.put(winner, winnerPoints++);
-            System.out.println(winner + "won the point and is now on " + winnerPoints + "points");
+            pointsDict.put(winner, winnerPoints + 1);
         }
         while (pointsDict.get("player1") < 11 &&
                pointsDict.get("player2") < 11 ||
                Math.abs(pointsDict.get("player1") - pointsDict.get("player2")) < 2);
 
-        System.out.println("player1: " + pointsDict.get("player1"));
-        System.out.println("player2: " + pointsDict.get("player2"));
-        return (pointsDict.get("player1") > pointsDict.get("player1")) ? gamePlayer1 : gamePlayer2;
+        return (pointsDict.get("player1") > pointsDict.get("player2")) ? "player1" : "player2";
     }
 
     /**
@@ -51,7 +52,7 @@ public abstract class Game {
         Random random = new Random();
         double randomDouble = random.nextDouble();
 
-        // Decide winner and return Player obj
+        // Decide winner and return player.Player obj
         return (randomDouble <= player1WinChance) ? "player1" : "player2";
     }
 
@@ -61,6 +62,6 @@ public abstract class Game {
      * @return Win chance, double between 0 and 1
      */
     public static double getWinChance(double eloDifference) {
-        return 1 / (1 + Math.pow(10, -eloDifference/400));
+        return 1 / (1 + Math.pow(10, -eloDifference/1000));
     }
 }

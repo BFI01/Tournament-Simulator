@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="gson-2.9.0">
+  <library name="opencsv-5.6">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libraries/gson-2.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libraries/opencsv-5.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
