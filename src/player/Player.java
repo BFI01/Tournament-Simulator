@@ -1,9 +1,16 @@
 package player;
 
 public class Player {
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
     private int elo;
+    private int wins = 0;
+
+    public Player (String firstName, String lastName, int elo) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.elo = elo;
+    }
 
     public void adjustElo(double expectedWins, double wins) {
         // K-factor is max change in Elo per adjustment. Formally set to 16 for pros and 32 for weaker players
@@ -24,16 +31,16 @@ public class Player {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
     }
 }
 
