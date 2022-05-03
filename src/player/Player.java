@@ -15,8 +15,14 @@ public class Player {
     public void adjustElo(double expectedWins, double wins) {
         // K-factor is max change in Elo per adjustment. Formally set to 16 for pros and 32 for weaker players
         int K = 32;
-        double newElo = this.getElo() + (K * (wins - expectedWins));
-        this.setElo((int) Math.round(newElo));
+        int newElo = (int) Math.round(getElo() + (K * (wins - expectedWins)));
+        System.out.printf("[ELO] Updated %s %s's Elo from %d to %d (%d)%n",
+                getFirstName(),
+                getLastName(),
+                getElo(),
+                newElo,
+                newElo-getElo());
+        setElo(newElo);
     }
 
     public int getElo() {
@@ -41,6 +47,14 @@ public class Player {
 
     public void setWins(int wins) {
         this.wins = wins;
+    }
+
+    public String toString() {
+        return String.format("Player(firstName: %s, lastName: %s, elo: %d, wins: %d)",
+                firstName,
+                lastName,
+                elo,
+                wins);
     }
 }
 
