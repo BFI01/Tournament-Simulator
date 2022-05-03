@@ -9,15 +9,15 @@ import java.util.Random;
  * <p>Abstract class </p>
  */
 public abstract class Game {
+    private final HashMap<String, Integer> pointsDict = new HashMap<>();
     private Player gamePlayer1;
     private Player gamePlayer2;
-    private final HashMap<String, Integer> pointsDict = new HashMap<>();
 
     /**
      * <p>Simulate a game of table tennis with two players</p>
      * <br>
      * <p>The winner is the first to 11 points (or higher) with a 2 point lead</p>
-     * @param gamePlayer1 player.Player objecbt for one of the players
+     * @param gamePlayer1 player.Player object for one of the players
      * @param gamePlayer2 player.Player object for the other player
      * @return Returns player.Player object of the game winner
      */
@@ -45,7 +45,7 @@ public abstract class Game {
      */
     private String playPoint() {
         // Calculate weighting based on ELO difference
-        double eloDifference = this.gamePlayer1.getElo() - this.gamePlayer2.getElo();
+        double eloDifference = gamePlayer1.getElo() - gamePlayer2.getElo();
         double player1WinChance = getWinChance(eloDifference);
 
         // Generate random value between 0 and 1
