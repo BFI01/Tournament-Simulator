@@ -62,6 +62,6 @@ public abstract class Game {
      * @return Win chance, double between 0 and 1
      */
     public static double getWinChance(double eloDifference) {
-        return 1 / (1 + Math.pow(10, -eloDifference/1000));
+        return 1 / (1 + Math.pow(10, -eloDifference/400));
     }
 }
