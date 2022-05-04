@@ -29,9 +29,11 @@ public class Match extends Game {
         this.matchPlayer2 = null;
     }
 
-    private void updatePlayer(Player player, int expectedWins, int wins) {
-        player.setWins(player.getWins() + 1);
-        player.adjustElo(expectedWins, wins);
+    private void updatePlayer(Player player, boolean wonMatch, int expectedGameWins, int gameWins) {
+        if (wonMatch) {
+            player.setWins(player.getWins() + 1);
+        }
+        player.adjustElo(expectedGameWins, gameWins);
     }
 
     public void addPlayer(Player matchPlayer) {
@@ -48,12 +50,13 @@ public class Match extends Game {
         // Catch bye case
         if (matchPlayer2 == null) {
             // When a match contains a bye, the player immediately moves on to the next round
-            System.out.printf("[GAME] %s %s gets a bye and moves on to the next round%n",
+            System.out.printf("[TOURNEY] %s %s gets a bye and moves on to the next round%n",
                     matchPlayer1.getFirstName(),
                     matchPlayer1.getLastName());
+            setWinner(matchPlayer1);
+            matchPlayer1.setWins(matchPlayer1.getWins() + 1);
             return null;
         }
-
 
         gamesDict.put("player1", 0);
         gamesDict.put("player2", 0);
@@ -91,10 +94,20 @@ public class Match extends Game {
                 matchPlayer2.getLastName(),
                 winner.getFirstName(),
                 winner.getLastName());
-        updatePlayer(matchPlayer1, player1ExpectedWins, gamesDict.get("player1"));
-        updatePlayer(matchPlayer2, winsNeeded-player1ExpectedWins, gamesDict.get("player2"));
+        updatePlayer(matchPlayer1, (matchPlayer2 == loser), player1ExpectedWins, gamesDict.get("player1"));
+        updatePlayer(matchPlayer2, (matchPlayer1 == loser), winsNeeded-player1ExpectedWins, gamesDict.get("player2"));
         setOnGoing(false);
         return loser;
+    }
+
+    public Player[] getPlayers() {
+        if (matchPlayer2 != null) {
+            return new Player[]{matchPlayer1, matchPlayer2};
+        } else if (matchPlayer1 != null) {
+            return new Player[]{matchPlayer1};
+        } else {
+            return new Player[0];
+        }
     }
 
     public int getMatchNumber() {
