@@ -30,6 +30,9 @@ public abstract class Game {
             String winner = playPoint();
             Integer winnerPoints = pointsDict.get(winner);
             pointsDict.put(winner, winnerPoints + 1);
+            if (winnerPoints + 1 == 15) {
+                break;
+            }
         }
         while (pointsDict.get("player1") < 11 &&
                pointsDict.get("player2") < 11 ||
