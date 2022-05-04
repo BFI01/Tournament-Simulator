@@ -3,12 +3,14 @@ package player;
 public class Player {
     private final String firstName;
     private final String lastName;
+    private final int gender;
     private int elo;
     private int wins = 0;
 
-    public Player (String firstName, String lastName, int elo) {
+    public Player (String firstName, String lastName, int gender, int elo) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
         this.elo = elo;
     }
 
@@ -39,6 +41,10 @@ public class Player {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public int getGender() {
+        return gender;
     }
 
     public int getWins() {
