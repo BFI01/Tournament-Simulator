@@ -14,10 +14,9 @@ public class Match extends Game {
      * Using a hashmap rather than storing wins in the {@code player.Player} object enforces
      * single responsibility and
      * <a href="https://alvinalexander.com/java/java-law-of-demeter-java-examples/">LoD</a>
-     * by not relying on calling a {@code getGameWins()}
-     *
+     * by not relying on calling a {@code Match.getWinner().getGameWins()} in classes that
+     * create Match objects for example.
      */
-    // But makes it so you can't track how many wins each player has after the tournament ends
     private final HashMap<Player, Integer> gamesDict = new HashMap<>();
     private Player matchPlayer1;
     private Player matchPlayer2;
