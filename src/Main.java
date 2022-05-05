@@ -117,7 +117,7 @@ public class Main {
                     player.getLastName(),
                     gender,
                     player.getElo(),
-                    player.getWins());
+                    player.getMatchWins());
             if (position % 10 == 0 && position < playerCount) {
                 System.out.println("---");
             }

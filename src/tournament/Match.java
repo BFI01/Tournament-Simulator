@@ -31,7 +31,7 @@ public class Match extends Game {
 
     private void updatePlayer(Player player, boolean wonMatch, int expectedGameWins, int gameWins) {
         if (wonMatch) {
-            player.setWins(player.getWins() + 1);
+            player.addWin();
         }
         player.adjustElo(expectedGameWins, gameWins);
     }
@@ -54,7 +54,7 @@ public class Match extends Game {
                     matchPlayer1.getFirstName(),
                     matchPlayer1.getLastName());
             setWinner(matchPlayer1);
-            matchPlayer1.setWins(matchPlayer1.getWins() + 1);
+            matchPlayer1.addWin();
             return null;
         }
 
