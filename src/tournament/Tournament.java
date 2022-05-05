@@ -38,7 +38,7 @@ public class Tournament {
      */
     private void addRound(int byes) {
         // Create an array of matches based on how many players are in the tournament
-        rounds.add(new Match[byes + (int) Math.ceil((getPlayers().size()-byes)/2.0)]);
+        rounds.add(new Match[byes + (int) Math.ceil((players.size()-byes)/2.0)]);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Tournament {
      * @param newPlayer {@link Player} object
      */
     public void addPlayer(Player newPlayer) {
-        getPlayers().add(newPlayer);
+        players.add(newPlayer);
     }
 
     /**
@@ -70,10 +70,14 @@ public class Tournament {
      * <a href="https://www.interbasket.net/brackets/">bracket tournament</a>.
      */
     public void assignMatches() {
+        if (rounds.size()-1 < 0) {
+            System.out.println("The first round of the tournament must include a byes argument!");
+            return;
+        }
         addRound();
         // Iterate up to half the number of players still in the tournament as each match
         // has two players
-        for (int i = 0; i < getPlayers().size()/2; i++) {
+        for (int i = 0; i < players.size()/2; i++) {
             Match match = new Match();
             match.setMatchNumber(i);
             // Iterate through all matches in the last round
@@ -123,21 +127,21 @@ public class Tournament {
      */
     public void assignMatches(int byes) {
         // Sort players from the lowest Elo to the highest Elo
-        getPlayers().sort(new SortByElo());
+        players.sort(new SortByElo());
 
         // Pairings should be a high Elo player versus a low Elo player
         addRound(getNeededByes());
         // Bye matches
         for (int i = 0; i < byes; i++) {
-            rounds.get(0)[i] = new Match(getPlayers().get(i));
+            rounds.get(0)[i] = new Match(players.get(i));
             // Giving each match a unique number will allow the structure of the bracket tournament
             // to be upheld throughout the rounds
             rounds.get(0)[i].setMatchNumber(i);
         }
         // Regular matches
-        for (int j = 0; j < (getPlayers().size()-byes)/2; j++) {
+        for (int j = 0; j < (players.size()-byes)/2; j++) {
             /*
-             * To pair players with high and low Elo's, take an ordered list of players in terms of their Elo
+             * To pair players with high and low Elos, take an ordered list of players in terms of their Elo
              * and create matches starting with the first & last player in the list, moving inwards:
              * --> [Pl1, Pl2, Pl3, Pl4, Pl5, Pl6]
              *       ^                        ^     Match A
@@ -146,7 +150,7 @@ public class Tournament {
              * --> [Pl1, Pl2, Pl3, Pl4, Pl5, Pl6]
              *                 ^    ^               Match C
              */
-            rounds.get(0)[byes+j] = new Match(getPlayers().get(byes+j), getPlayers().get(getPlayers().size()-(j+1)));
+            rounds.get(0)[byes+j] = new Match(players.get(byes+j), players.get(players.size()-(j+1)));
             rounds.get(0)[byes+j].setMatchNumber(byes+j);
         }
     }
@@ -157,6 +161,10 @@ public class Tournament {
      * @param round Round number to simulate (starting at 0).
      */
     public void playMatches(int round) {
+        if (rounds.size()-1 < round) {
+            System.out.printf("There are only %d rounds in the tournament!%n", rounds.size());
+            return;
+        }
         for (Match match : rounds.get(round)) {
             Player loser = match.playMatch();
 
@@ -179,7 +187,7 @@ public class Tournament {
     public int getNeededByes() {
         // Number of byes needed is 2^n - (number of players)
         // Where n = ceiling(log_2(number of players))
-        return (int) Math.pow(2, Math.ceil( Math.log(getPlayers().size()) / Math.log(2) )) - getPlayers().size();
+        return (int) Math.pow(2, Math.ceil( Math.log(players.size()) / Math.log(2) )) - players.size();
     }
 
     /**
