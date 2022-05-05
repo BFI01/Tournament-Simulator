@@ -1,44 +1,34 @@
 import com.opencsv.exceptions.CsvException;
 import player.CSVParser;
 import player.Player;
-import tournament.Match;
 import tournament.Tournament;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.*;
 
 public class Main {
-    private static void output(final String text, boolean logsOnly) throws FileNotFoundException {
-        FileOutputStream outputFile = new FileOutputStream("logs.txt");
-        PrintStream logs = new PrintStream(outputFile);
-        logs.println(text);
-        if (!logsOnly) {
-            System.out.println(text);
-        }
-    }
 
     private static int getPlayerCount() {
         // Get user input for number of players in the tournament
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of players in the tournament:");
+        System.out.print("> ");
         int playerCount = -1;
-        do {
-            System.out.println("Enter the number of players in the tournament:");
-            System.out.print("> ");
-            try {
-                playerCount = scanner.nextInt();
-                if (playerCount < 2 || playerCount > 100000) {
-                    System.out.println("You need at least two players! Please try again...");
-                }
-            }
-            catch (java.util.InputMismatchException e) {
-                System.out.println("Input must be an integer! Please try again...");
-                scanner.next();
+        try {
+            playerCount = scanner.nextInt();
+            if (playerCount < 2) {
+                System.out.println("You need at least two players! Please try again...");
+                getPlayerCount();
+            } else if (playerCount > 100_000) {
+                System.out.println("You can have at most 100,000 players! Please try again...");
+                getPlayerCount();
             }
         }
-        while (playerCount < 2 || playerCount > 100000);
+        catch (java.util.InputMismatchException e) {
+            System.out.println("Input must be an integer! Please try again...");
+            scanner.next();
+            getPlayerCount();
+        }
         return playerCount;
     }
 
@@ -117,15 +107,11 @@ public class Main {
                     player.getLastName(),
                     gender,
                     player.getElo(),
-                    player.getWins());
+                    player.getMatchWins());
             if (position % 10 == 0 && position < playerCount) {
                 System.out.println("---");
             }
             position++;
-            // If the leaderboard has more than 30 players, display
-//            if (position == 11) {
-//                System.setOut();
-//            }
         }
         System.out.printf("------------------------------------------------------------%n");
     }
