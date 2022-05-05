@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-
     private static int getPlayerCount() {
         // Get user input for number of players in the tournament
         Scanner scanner = new Scanner(System.in);
@@ -107,7 +106,7 @@ public class Main {
                     player.getLastName(),
                     gender,
                     player.getElo(),
-                    player.getMatchWins());
+                    player.getWins());
             if (position % 10 == 0 && position < playerCount) {
                 System.out.println("---");
             }
