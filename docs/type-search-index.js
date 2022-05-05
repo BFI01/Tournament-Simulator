@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"components","l":"CSVParser"},{"p":"tournament","l":"Game"},{"p":"<Unnamed>","l":"Main"},{"p":"tournament","l":"Match"},{"p":"player","l":"Player"},{"p":"components","l":"SortByElo"},{"p":"components","l":"SortByWins"},{"p":"tournament","l":"Tournament"}];updateSearchResults();
