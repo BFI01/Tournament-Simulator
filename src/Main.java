@@ -1,5 +1,5 @@
 import com.opencsv.exceptions.CsvException;
-import player.CSVParser;
+import components.CSVParser;
 import player.Player;
 import tournament.Tournament;
 
@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
+    /**
+     * Get user input for number of players in the tournament.
+     *
+     * @return Number of players in the tournament (int)
+     */
     private static int getPlayerCount() {
         // Get user input for number of players in the tournament
         Scanner scanner = new Scanner(System.in);
@@ -15,14 +20,17 @@ public class Main {
         int playerCount = -1;
         try {
             playerCount = scanner.nextInt();
+            // Input must be larger than 2
             if (playerCount < 2) {
                 System.out.println("You need at least two players! Please try again...");
-                getPlayerCount();
+                getPlayerCount(); // Calls self recursively until valid input is entered
+            // Input must be less than 100,000
             } else if (playerCount > 100_000) {
                 System.out.println("You can have at most 100,000 players! Please try again...");
                 getPlayerCount();
             }
         }
+        // Input must be an integer
         catch (java.util.InputMismatchException e) {
             System.out.println("Input must be an integer! Please try again...");
             scanner.next();
@@ -31,7 +39,7 @@ public class Main {
         return playerCount;
     }
 
-    public static void main(String[] args) throws IOException, CsvException {
+    public static void main(String[] args) throws IOException, CsvException, RuntimeException {
         System.out.printf("---------------------------------------------%n");
         System.out.println("     Table Tennis Tournament Simulator");
         System.out.printf("---------------------------------------------%n");
@@ -63,7 +71,7 @@ public class Main {
             String lastName = playerLastNames.get(random.nextInt(playerLastNames.size()))[0];
             int elo = 1000 + random.nextInt(400); // Arbitrary range of 1000 to 1400 Elo for any player
             // Add player to the tournament
-            tournament.addPlayer(firstName, lastName, gender, elo);
+            tournament.addPlayer(new Player(firstName, lastName, gender, elo));
         }
 
         // Order by ELO and create initial pairings

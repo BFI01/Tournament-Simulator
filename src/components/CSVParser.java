@@ -1,4 +1,4 @@
-package player;
+package components;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;

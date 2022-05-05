@@ -31,10 +31,10 @@ public abstract class Game {
      * The winner is the first to 11 points (or higher) with a 2 point lead.
      * Maximum points of 15 to prevent games lasting indefinitely.
      *
-     * @param gamePlayer1 {@code Player} object for one of the players
-     * @param gamePlayer2 {@code Player} object for the other player
+     * @param gamePlayer1 {@link Player} object for one of the players
+     * @param gamePlayer2 {@link Player} object for the other player
      *
-     * @return Returns {@code Player} object of the game winner
+     * @return Returns {@link Player} object of the game winner
      */
     public Player playGame(Player gamePlayer1, Player gamePlayer2) {
         this.gamePlayer1 = gamePlayer1;
@@ -61,7 +61,7 @@ public abstract class Game {
      * <p>
      * Use random number considering ELO to determine winner.
      *
-     * @return Point winner as String
+     * @return Point winner as {@link Player}
      */
     private Player playPoint() {
         // Calculate weighting based on ELO difference
