@@ -6,6 +6,9 @@ import tournament.Tournament;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Main class
+ */
 public class Main {
     /**
      * Get user input for number of players in the tournament.
@@ -39,7 +42,14 @@ public class Main {
         return playerCount;
     }
 
-    public static void main(String[] args) throws IOException, CsvException, RuntimeException {
+    /**
+     * Program launch point
+     *
+     * @param args Command line arguments
+     * @throws IOException Thrown when an issue arises with {@link CSVParser}.
+     * @throws CsvException Thrown when an issue arises with {@link CSVParser}.
+     */
+    public static void main(String[] args) throws IOException, CsvException {
         System.out.printf("---------------------------------------------%n");
         System.out.println("     Table Tennis Tournament Simulator");
         System.out.printf("---------------------------------------------%n");

@@ -19,7 +19,7 @@ public class Match extends Game {
      */
     private final HashMap<Player, Integer> gamesDict = new HashMap<>();
     /**
-     * Player 1 of 2 players - there may not always be a {@code matchPlayer1 on object initialisation.
+     * Player 1 of 2 players - there may not always be a {@code matchPlayer1} on object initialisation.
      */
     private Player matchPlayer1;
     /**

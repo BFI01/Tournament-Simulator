@@ -83,15 +83,15 @@ public class Tournament {
                  * matchNumber and halving it, as after the first round each subsequent
                  * round will contain half the number of matches.
                  *
-                 * Player 1 ------------┐     Round 2     ┌------------ Player 3
+                 * Player 1 ------------|     Round 2     |------------ Player 3
                  *     Round 1, Match 0 |---- Match 0 ----| Round 1, Match 1
-                 * Player 2 ------------┘       |         └------------ Player 4
+                 * Player 2 ------------|       |         |------------ Player 4
                  *                              |
                  *                        Round 3, Match 0
                  *                              |
-                 * Player 1 ------------┐       |         ┌------------ Player 3
+                 * Player 1 ------------|       |         |------------ Player 3
                  *     Round 1, Match 2 |---- Match 1 ----| Round 1, Match 3
-                 * Player 2 ------------┘     Round 2     └------------ Player 4
+                 * Player 2 ------------|     Round 2     |------------ Player 4
                  *
                  * Following the diagram, the floor division of (Match:0 / 2.0) and (Match:1 / 2.0)
                  * are both 0, and the floor division of (Match:2 / 2.0) and (Match:3 / 2.0) are
