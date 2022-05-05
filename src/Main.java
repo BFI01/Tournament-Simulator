@@ -50,6 +50,7 @@ public class Main {
      * @throws CsvException Thrown when an issue arises with {@link CSVParser}.
      */
     public static void main(String[] args) throws IOException, CsvException {
+        final long startTime = System.currentTimeMillis();
         System.out.printf("---------------------------------------------%n");
         System.out.println("     Table Tennis Tournament Simulator");
         System.out.printf("---------------------------------------------%n");
@@ -112,7 +113,8 @@ public class Main {
         int position = 1;
         System.out.printf("%n------------------------------------------------------------%n");
         System.out.println("                        Leaderboards:");
-        for (Player player : tournament.getLeaderboard()) {
+        ArrayList<Player> leaderboard = tournament.getLeaderboard();
+        for (Player player : leaderboard) {
             String gender = switch (player.getGender()) {
                 case 0 -> "M";
                 case 1 -> "F";
@@ -130,6 +132,12 @@ public class Main {
             }
             position++;
         }
+        System.out.printf("------------------------------------------------------------%n");
+        System.out.println("                      Tournament Info:");
+        System.out.println("Number of players: " + leaderboard.size());
+        System.out.println("Rounds played: " + (round+1));
+        final long endTime = System.currentTimeMillis();
+        System.out.printf("Tournament execution time: %f seconds%n", Math.round((endTime-startTime)/100.0)/10.0);
         System.out.printf("------------------------------------------------------------%n");
     }
 }
