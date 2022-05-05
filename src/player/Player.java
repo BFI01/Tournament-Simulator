@@ -5,7 +5,9 @@ public class Player {
     private final String lastName;
     private final int gender;
     private int elo;
-    private int wins = 0;
+    private int matchWins = 0;
+    private int gameWins = 0;
+    private int pointWins = 0;
 
     public Player (String firstName, String lastName, int gender, int elo) {
         this.firstName = firstName;
@@ -47,12 +49,28 @@ public class Player {
         return gender;
     }
 
-    public int getWins() {
-        return wins;
+    public int getMatchWins() {
+        return matchWins;
     }
 
-    public void setWins(int wins) {
-        this.wins = wins;
+    public void addWin() {
+        matchWins++;
+    }
+
+    public int getGameWins() {
+        return gameWins;
+    }
+
+    public void setGameWins(int gameWins) {
+        this.gameWins = gameWins;
+    }
+
+    public int getPointWins() {
+        return pointWins;
+    }
+
+    public void setPointWins(int pointWins) {
+        this.pointWins = pointWins;
     }
 
     public String toString() {
@@ -60,7 +78,9 @@ public class Player {
                 firstName,
                 lastName,
                 elo,
-                wins);
+                matchWins);
     }
+
+
 }
 
