@@ -51,8 +51,8 @@ public class Player {
         return wins;
     }
 
-    public void setWins(int wins) {
-        this.wins = wins;
+    public void addWin() {
+        wins++;
     }
 
     public String toString() {
