@@ -6,47 +6,64 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * <p>Abstract class </p>
+ * Abstract class defining the functionality of a single table tennis game.
+ * <p>
+ * A game is won by being first to 11 points (or higher) with a 2 point lead or by reaching
+ * 15 points.
  */
 public abstract class Game {
-    private final HashMap<String, Integer> pointsDict = new HashMap<>();
+    /**
+     * Hash map containing players and how many points they have.
+     */
+    private final HashMap<Player, Integer> pointsDict = new HashMap<>();
+    /**
+     * Player 1 of 2 players - there are always two players in a game.
+     */
     private Player gamePlayer1;
+    /**
+     * Player 2 of 2 players - there are always two players in a game.
+     */
     private Player gamePlayer2;
 
     /**
-     * <p>Simulate a game of table tennis with two players</p>
-     * <br>
-     * <p>The winner is the first to 11 points (or higher) with a 2 point lead</p>
-     * @param gamePlayer1 player.Player object for one of the players
-     * @param gamePlayer2 player.Player object for the other player
-     * @return Returns player.Player object of the game winner
+     * Simulate a game of table tennis with two players.
+     * <p>
+     * The winner is the first to 11 points (or higher) with a 2 point lead.
+     * Maximum points of 15 to prevent games lasting indefinitely.
+     *
+     * @param gamePlayer1 {@code Player} object for one of the players
+     * @param gamePlayer2 {@code Player} object for the other player
+     *
+     * @return Returns {@code Player} object of the game winner
      */
-    public String playGame(Player gamePlayer1, Player gamePlayer2) {
+    public Player playGame(Player gamePlayer1, Player gamePlayer2) {
         this.gamePlayer1 = gamePlayer1;
         this.gamePlayer2 = gamePlayer2;
-        pointsDict.put("player1", 0);
-        pointsDict.put("player2", 0);
+        pointsDict.put(gamePlayer1, 0);
+        pointsDict.put(gamePlayer2, 0);
         do {
-            String winner = playPoint();
+            Player winner = playPoint();
             Integer winnerPoints = pointsDict.get(winner);
             pointsDict.put(winner, winnerPoints + 1);
-            if (winnerPoints + 1 == 15) {
+            if ((winnerPoints + 1) == 15) {
                 break;
             }
         }
-        while (pointsDict.get("player1") < 11 &&
-               pointsDict.get("player2") < 11 ||
-               Math.abs(pointsDict.get("player1") - pointsDict.get("player2")) < 2);
+        while (pointsDict.get(gamePlayer1) < 11
+               && pointsDict.get(gamePlayer2) < 11
+               || Math.abs(pointsDict.get(gamePlayer1) - pointsDict.get(gamePlayer2)) < 2);
 
-        return (pointsDict.get("player1") > pointsDict.get("player2")) ? "player1" : "player2";
+        return (pointsDict.get(gamePlayer1) > pointsDict.get(gamePlayer2)) ? gamePlayer1 : gamePlayer2;
     }
 
     /**
-     * <p>Simulate playing a point between two players.
-     * Use random number considering ELO to determine winner.</p>
+     * Simulate playing a point between two players.
+     * <p>
+     * Use random number considering ELO to determine winner.
+     *
      * @return Point winner as String
      */
-    private String playPoint() {
+    private Player playPoint() {
         // Calculate weighting based on ELO difference
         double eloDifference = gamePlayer1.getElo() - gamePlayer2.getElo();
         double player1WinChance = getWinChance(eloDifference);
@@ -56,11 +73,14 @@ public abstract class Game {
         double randomDouble = random.nextDouble();
 
         // Decide winner and return player.Player obj
-        return (randomDouble <= player1WinChance) ? "player1" : "player2";
+        return (randomDouble <= player1WinChance) ? gamePlayer1 : gamePlayer2;
     }
 
     /**
-     * <p>Use logistic function to calculate chance of winning any given point.</p>
+     * Use logistic function to calculate chance of winning any given point.
+     * <p>
+     * Source: <a href="https://nicidob.github.io/nba_elo/">FiveThirtyEight's Elo Ratings and Logistic Regression</a>
+     *
      * @param eloDifference Difference between both players' ELO
      * @return Win chance, double between 0 and 1
      */
