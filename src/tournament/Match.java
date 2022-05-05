@@ -4,10 +4,21 @@ import player.Player;
 
 import java.util.HashMap;
 
+/**
+ * Defines a match of table tennis, which is the best of 7 games.
+ *
+ * @see tournament.Game
+ */
 public class Match extends Game {
-    // Using a hashmap rather than storing wins in the player.Player object enforces single responsibility and LoD(?)
+    /**
+     * Using a hashmap rather than storing wins in the {@code player.Player} object enforces
+     * single responsibility and
+     * <a href="https://alvinalexander.com/java/java-law-of-demeter-java-examples/">LoD</a>
+     * by not relying on calling a {@code getGameWins()}
+     *
+     */
     // But makes it so you can't track how many wins each player has after the tournament ends
-    private final HashMap<String, Integer> gamesDict = new HashMap<>();
+    private final HashMap<Player, Integer> gamesDict = new HashMap<>();
     private Player matchPlayer1;
     private Player matchPlayer2;
     private int matchNumber;
@@ -31,7 +42,7 @@ public class Match extends Game {
 
     private void updatePlayer(Player player, boolean wonMatch, int expectedGameWins, int gameWins) {
         if (wonMatch) {
-            player.setWins(player.getWins() + 1);
+            player.addWin();
         }
         player.adjustElo(expectedGameWins, gameWins);
     }
@@ -54,12 +65,12 @@ public class Match extends Game {
                     matchPlayer1.getFirstName(),
                     matchPlayer1.getLastName());
             setWinner(matchPlayer1);
-            matchPlayer1.setWins(matchPlayer1.getWins() + 1);
+            matchPlayer1.addWin();
             return null;
         }
 
-        gamesDict.put("player1", 0);
-        gamesDict.put("player2", 0);
+        gamesDict.put(matchPlayer1, 0);
+        gamesDict.put(matchPlayer2, 0);
 
         int maxGames = 7;
         int winsNeeded = (maxGames + 1) / 2;
@@ -68,20 +79,20 @@ public class Match extends Game {
         int player1ExpectedWins = (int) Math.round(getWinChance(eloDifference) * winsNeeded);
 
         do {
-            String gameWinner = playGame(matchPlayer1, matchPlayer2);
+            Player gameWinner = playGame(matchPlayer1, matchPlayer2);
             Integer winnerPoints = gamesDict.get(gameWinner);
             gamesDict.put(gameWinner, winnerPoints + 1);
             System.out.printf("[GAME] %s vs %s: %d-%d%n",
                     matchPlayer1.getLastName(),
                     matchPlayer2.getLastName(),
-                    gamesDict.get("player1"),
-                    gamesDict.get("player2"));
+                    gamesDict.get(matchPlayer1),
+                    gamesDict.get(matchPlayer2));
         }
-        while (gamesDict.get("player1") < winsNeeded &&
-               gamesDict.get("player2") < winsNeeded);
+        while (gamesDict.get(matchPlayer1) < winsNeeded &&
+               gamesDict.get(matchPlayer2) < winsNeeded);
 
         Player loser;
-        if ((gamesDict.get("player1") > gamesDict.get("player2"))) {
+        if ((gamesDict.get(matchPlayer1) > gamesDict.get(matchPlayer2))) {
             setWinner(matchPlayer1);
             loser = matchPlayer2;
         } else {
@@ -94,8 +105,8 @@ public class Match extends Game {
                 matchPlayer2.getLastName(),
                 winner.getFirstName(),
                 winner.getLastName());
-        updatePlayer(matchPlayer1, (matchPlayer2 == loser), player1ExpectedWins, gamesDict.get("player1"));
-        updatePlayer(matchPlayer2, (matchPlayer1 == loser), winsNeeded-player1ExpectedWins, gamesDict.get("player2"));
+        updatePlayer(matchPlayer1, (matchPlayer2 == loser), player1ExpectedWins, gamesDict.get(matchPlayer1));
+        updatePlayer(matchPlayer2, (matchPlayer1 == loser), winsNeeded-player1ExpectedWins, gamesDict.get(matchPlayer2));
         setOnGoing(false);
         return loser;
     }
